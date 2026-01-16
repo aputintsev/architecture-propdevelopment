@@ -1,0 +1,32 @@
+@startuml
+title PropDevelopment - SmartHome Services Context Diagram
+
+top to bottom direction
+
+!include <C4/C4_Context>
+
+Person(user, "Собственник", "Клиент")
+System_Boundary(c1, "PropDevelopment") {
+    System_Boundary(c2, "Группа сервисов ЖКУ") {
+        System(tenantServices, "Tenant services", "Система предоставления услуг собственникам")
+        System(crm, "CRM", "Система управления данными собственников")
+        System(smartHomeService, "Система умного дома", "Система управления умным домом")
+    }
+    System(authSystem, "Система аутентификации пользователей")
+}
+
+System_Ext(paymentSystem, "Платежная система", "Провайдер онлайн-платежей")
+System_Ext(serviceProvider, "Поставщик услуг ЖКХ")
+System_Ext(smartHome, "Поставщик услуги умного дома")
+
+Rel(user, tenantServices, "Использование сервисов")
+Rel(user, crm, "Получение/изменение данных")
+Rel(tenantServices, crm, "Получение данных собственников")
+Rel(tenantServices, authSystem, "Аутентификация, авторизация")
+Rel(tenantServices, smartHomeService, "Управление умным домом")
+
+Rel(tenantServices, paymentSystem, "Проведение платежей")
+Rel(tenantServices, serviceProvider, "Использование сервисов")
+Rel(smartHomeService, smartHome, "Управление умным домом")
+
+@enduml
